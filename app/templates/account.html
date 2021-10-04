@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block content %}
+<main class="vh-100">
+  <div class="row">
+    <div class="col-md-2 bg-light vh-100">
+      <div class="container-fluid">
+        <img class="w-75 pt-3 m-auto d-block" src="{{ url_for('static', filename='user.png') }}">
+        <h1 class="text-center mt-2">Admin.</h1>
+      </div>
+    </div>
+    <div class="col-md-10 vh-100">
+      <div class="container-fluid pt-3">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <div class="w-75">
+          {% for ip in ips %}
+            <p>{{ ip.ip }}</p>
+          {% endfor %}
+        </div>
+        <div class="w-25">
+          <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            <fieldset class="form-group">
+              <div class="form-group mt-3">
+                {% if form.IPaddress.errors %}
+                  {{ form.IPaddress(class="fst-italic text-center form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.IPaddress.errors %}
+                      <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ form.IPaddress(class="fst-italic text-center form-control form-control-lg") }}
+                {% endif %}
+              </div>
+            </fieldset>
+            <div class="form-group mt-3 w-100 d-flex justify-content-center">
+              {{ form.submit(class="w-25 btn btn-primary p-2") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock content %}
